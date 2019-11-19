@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "294588331432",
+    "firebase_url": "https://blackfolks-cbbc8.firebaseio.com",
+    "project_id": "blackfolks-cbbc8",
+    "storage_bucket": "blackfolks-cbbc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294588331432:android:fc2bb619b9215fd800999d",
+        "android_client_info": {
+          "package_name": "com.loopz.blackfolks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294588331432-36bn122v68set337hjb9h1c038landft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loopz.blackfolks",
+            "certificate_hash": "7bb133cd3b1adbb4e202309cf6249ff4c0c1c21c"
+          }
+        },
+        {
+          "client_id": "294588331432-ktje8fn23g57mp7nnnbl52qit9tmg2u9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOokok192awZLlkuWNIb2VZnkWNTNxBv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294588331432-ktje8fn23g57mp7nnnbl52qit9tmg2u9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
