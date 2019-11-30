@@ -2,6 +2,7 @@ package com.loopz.blackfolks.views.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,28 +28,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.loopz.blackfolks.R;
 import com.loopz.blackfolks.adapter.AdapterUser;
 import com.loopz.blackfolks.constants.FirebaseConstants;
 import com.loopz.blackfolks.customViews.NothingLayout;
-import com.loopz.blackfolks.model.Home;
-import com.loopz.blackfolks.model.Room;
-import com.loopz.blackfolks.model.User;
 import com.loopz.blackfolks.model.UserHome;
 import com.loopz.blackfolks.views.MainActivity;
+import com.loopz.blackfolks.views.UserRoomAceessActivity;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
 
 public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderClickListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -126,7 +119,10 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addUserDialog();
+                //addUserDialog();
+                Intent intent=new Intent(getActivity(), UserRoomAceessActivity.class);
+                intent.putExtra("home",((MainActivity) getActivity()).getHome());
+                startActivity(intent);
             }
         });
     }
@@ -167,6 +163,7 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 swipeRefreshLayout.setRefreshing(false);
                 if (task.isSuccessful()) {
+                    userArrayList.addAll(userArrayList);
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
                         UserHome userHome = snapshot.toObject(UserHome.class);
                         Log.e("homes", snapshot.toString());

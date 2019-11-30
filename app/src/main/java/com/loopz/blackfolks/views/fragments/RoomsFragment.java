@@ -25,9 +25,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,21 +36,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.loopz.blackfolks.R;
 import com.loopz.blackfolks.adapter.AdapterRoom;
+import com.loopz.blackfolks.adapter.AdapterSceneMode;
 import com.loopz.blackfolks.constants.FirebaseConstants;
 import com.loopz.blackfolks.constants.Roles;
 import com.loopz.blackfolks.customViews.NothingLayout;
 import com.loopz.blackfolks.model.Home;
 import com.loopz.blackfolks.model.Room;
+import com.loopz.blackfolks.model.SceneMode;
 import com.loopz.blackfolks.model.Switch;
 import com.loopz.blackfolks.model.UserHome;
 import com.loopz.blackfolks.views.MainActivity;
+import com.loopz.blackfolks.views.SceneModeActivity;
 import com.loopz.blackfolks.views.SwitchesActivity;
 
 import java.util.ArrayList;
 
-public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderClickListener {
+import static com.loopz.blackfolks.constants.Roles.OWNER;
+
+public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderClickListener,AdapterSceneMode.OnViewHolderClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,12 +71,16 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
     FirebaseDatabase firebaseDatabase;
     DatabaseReference roomsReference;
     RecyclerView recyclerView;
+    RecyclerView sceneModeRecycler;
     ArrayList<Room> roomArrayList = new ArrayList<>();
+    ArrayList<SceneMode> sceneArrayList = new ArrayList<>();
     AdapterRoom adapterRoom;
+    AdapterSceneMode adapterSceneMode;
     AlertDialog dialog;
     Home home;
     SwipeRefreshLayout swipeRefreshLayout;
-    FloatingActionButton fab;
+    FloatingActionsMenu fab;
+    FloatingActionButton fabScene,fabRoom;
     NothingLayout nothingLayout;
 
     private OnFragmentInteractionListener mListener;
@@ -108,30 +120,47 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        fabRoom = view.findViewById(R.id.fabRoom);
+        fabScene = view.findViewById(R.id.fabScene);
         nothingLayout = view.findViewById(R.id.nothingLayout);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                layoutManager.getOrientation());
+        sceneModeRecycler = view.findViewById(R.id.sceneModeRecycler);
+        GridLayoutManager layoutManager2 = new GridLayoutManager(getActivity(), 2);
+        sceneModeRecycler.setLayoutManager(layoutManager2);
+        sceneModeRecycler.setHasFixedSize(false);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+//                layoutManager2.getOrientation());
         //recyclerView.addItemDecoration(dividerItemDecoration);
         fab = view.findViewById(R.id.fab);
-        fab.hide();
+        //fab.hide();
+        fab.setVisibility(View.GONE);
         adapterRoom = new AdapterRoom(roomArrayList, RoomsFragment.this);
+        adapterSceneMode = new AdapterSceneMode(sceneArrayList, RoomsFragment.this);
+        sceneModeRecycler.setAdapter(adapterSceneMode);
         recyclerView.setAdapter(adapterRoom);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addRoomDialog();
+            }
+        });
+        fabScene.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), SceneModeActivity.class);
+                intent.putExtra("home",home);
+                startActivity(intent);
             }
         });
         getHomes();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getRooms();
+                getRooms() ;
             }
         });
     }
@@ -158,8 +187,9 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
     private void getRooms() {
         //home= ((MainActivity) getActivity()).getHome();
         //Log.e("home",home.toString());
+        getSceneModes();
         adapterRoom.setHome(home);
-        fab.show();
+        //fab.show();
         roomsReference = firebaseDatabase.getReference().child(home.getId());
         roomArrayList.removeAll(roomArrayList);
         swipeRefreshLayout.setRefreshing(true);
@@ -168,7 +198,18 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Room room = snapshot.getValue(Room.class);
-                    roomArrayList.add(room);
+                    room.setId(snapshot.getKey());
+                    try {
+                        Log.e("home",home.toString());
+                        if(!home.getPrivilege().equals(OWNER)) {
+                            if (home.getRoomIds().contains(room.getId()))
+                                roomArrayList.add(room);
+                        }else {
+                            roomArrayList.add(room);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 adapterRoom.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
@@ -177,6 +218,7 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
                 } else {
                     nothingLayout.setVisibility(View.GONE);
                 }
+                fab.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -184,6 +226,39 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
 
             }
         });
+    }
+
+    private void getSceneModes() {
+        adapterSceneMode.setHome(home);
+        FirebaseConstants.getSceneModeReference().whereEqualTo("homeId", home.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    sceneArrayList.removeAll(sceneArrayList);
+                    for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                        SceneMode sceneMode = snapshot.toObject(SceneMode.class);
+                        sceneMode.setId(snapshot.getId());
+                        Log.e("sceneMode", snapshot.toString());
+                        sceneArrayList.add(sceneMode);
+                    }
+                    Log.e("sceneArrayList", sceneArrayList.toString());
+                    adapterSceneMode.notifyDataSetChanged();
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onSceneModeViewHolderClick(SceneMode sceneMode) {
+
+    }
+
+    @Override
+    public void onSceneModeSwitchClick(SceneMode sceneMode) {
+        if(sceneMode.isOn()){
+        }else {
+        }
     }
 
     @Override
@@ -307,7 +382,7 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
     }
 
     private void saveRoomConfig() {
-        FirebaseConstants.getUserHomeReference().add(new UserHome(home.getId(), firebaseAuth.getUid(), Roles.OWNER, null));
+        FirebaseConstants.getUserHomeReference().add(new UserHome(home.getId(), firebaseAuth.getUid(), OWNER, null));
     }
 
     private void setHomePrimary(final Home home2) {

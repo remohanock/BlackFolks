@@ -15,10 +15,10 @@
             android:title="Users" />
         <item
             android:id="@+id/nav_consumption"
-            android:title="Consumption" />
+            android:title="Consumption" /><!--
         <item
             android:id="@+id/nav_settings"
-            android:title="Settings" />
+            android:title="Settings" />-->
         <item
             android:id="@+id/nav_support"
             android:title="Support" />
