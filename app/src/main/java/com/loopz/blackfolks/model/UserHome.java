@@ -1,8 +1,10 @@
 package com.loopz.blackfolks.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserHome {
+public class UserHome implements Serializable {
+    String id;
     String homeId;
     String userId;
     String priority;
@@ -16,6 +18,22 @@ public class UserHome {
         this.userId = userId;
         this.priority = priroity;
         this.roomIds = roomIds;
+    }
+
+    public UserHome(String id,String homeId, String userId, String priroity, ArrayList<String> roomIds) {
+        this.id = id;
+        this.homeId = homeId;
+        this.userId = userId;
+        this.priority = priroity;
+        this.roomIds = roomIds;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getHomeId() {

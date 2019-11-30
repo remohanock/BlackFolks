@@ -51,6 +51,7 @@ import com.loopz.blackfolks.model.Switch;
 import com.loopz.blackfolks.model.UserHome;
 import com.loopz.blackfolks.views.MainActivity;
 import com.loopz.blackfolks.views.SceneModeActivity;
+import com.loopz.blackfolks.views.SceneModeEditActivity;
 import com.loopz.blackfolks.views.SwitchesActivity;
 
 import java.util.ArrayList;
@@ -251,14 +252,14 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
 
     @Override
     public void onSceneModeViewHolderClick(SceneMode sceneMode) {
-
+        Intent intent=new Intent(getActivity(), SceneModeEditActivity.class);
+        intent.putExtra("home",home);
+        intent.putExtra("sceneMode",sceneMode);
+        startActivity(intent);
     }
 
     @Override
     public void onSceneModeSwitchClick(SceneMode sceneMode) {
-        if(sceneMode.isOn()){
-        }else {
-        }
     }
 
     @Override

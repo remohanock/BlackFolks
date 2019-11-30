@@ -53,6 +53,7 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_room_acees);
         progressDialog=new ProgressDialog(this);
+        setTitle("Add user access");
         home = (Home) getIntent().getSerializableExtra("home");
         firebaseDatabase = FirebaseDatabase.getInstance();
         etUserId = findViewById(R.id.etUserId);

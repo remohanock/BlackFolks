@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loopz.blackfolks.R;
 import com.loopz.blackfolks.model.Home;
 import com.loopz.blackfolks.model.Room;
+import com.loopz.blackfolks.model.User;
+import com.loopz.blackfolks.model.UserHome;
 
 import java.util.ArrayList;
 
@@ -28,16 +30,17 @@ public class AdapterRoomSelection extends RecyclerView.Adapter<RecyclerView.View
     boolean isFromHome = false;
     String parentId;
     Activity activity;
+    UserHome userHome;
 
     public AdapterRoomSelection(ArrayList<Room> roomArrayList, OnViewHolderClickListener onViewHolderClickListener) {
         this.roomArrayList = roomArrayList;
         this.onViewHolderClickListener = onViewHolderClickListener;
     }
 
-    public AdapterRoomSelection(ArrayList<Room> roomArrayList, OnViewHolderClickListener onViewHolderClickListener, boolean isFromHome) {
+    public AdapterRoomSelection(ArrayList<Room> roomArrayList, OnViewHolderClickListener onViewHolderClickListener, UserHome userHome) {
         this.roomArrayList = roomArrayList;
         this.onViewHolderClickListener = onViewHolderClickListener;
-        this.isFromHome = isFromHome;
+        this.userHome = userHome;
     }
 
     public void setParentId(String parentId) {
@@ -46,7 +49,7 @@ public class AdapterRoomSelection extends RecyclerView.Adapter<RecyclerView.View
 
     //Self Constructed interface to allow subscription to events by implementors
     public interface OnViewHolderClickListener {
-        void onRoomSelectionChange(String id,Room room,boolean isSelected);
+        void onRoomSelectionChange(String id, Room room, boolean isSelected);
 
     }
 
@@ -57,7 +60,7 @@ public class AdapterRoomSelection extends RecyclerView.Adapter<RecyclerView.View
                 inflate(R.layout.card_rooms_selection, parent, false);
         context = parent.getContext();
         activity = (Activity) context;
-        ViewHolderSender viewHolderSender = new ViewHolderSender(itemView, onViewHolderClickListener,parentId);
+        ViewHolderSender viewHolderSender = new ViewHolderSender(itemView, onViewHolderClickListener, parentId);
         setScreenDimensions();
         return viewHolderSender;
     }
@@ -67,9 +70,16 @@ public class AdapterRoomSelection extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
         final ViewHolderSender holder = (ViewHolderSender) viewHolder;
         final Room room = roomArrayList.get(position);
-        String title = room.getName();
-        //holder.tvTitle.setText(title);
-        holder.cbTick.setText(title);
+        try {
+            String title = room.getName();
+            //holder.tvTitle.setText(title);
+            holder.cbTick.setText(title);
+        if (userHome != null) {
+            holder.cbTick.setChecked(userHome.getRoomIds().contains(room.getId()));
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         holder.room = room;
     }
 
@@ -102,7 +112,7 @@ public class AdapterRoomSelection extends RecyclerView.Adapter<RecyclerView.View
             cbTick.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    onViewHolderClickListener.onRoomSelectionChange(parentId,room,isChecked);
+                    onViewHolderClickListener.onRoomSelectionChange(parentId, room, isChecked);
                 }
             });
         }

@@ -39,9 +39,13 @@ import com.loopz.blackfolks.constants.FirebaseConstants;
 import com.loopz.blackfolks.customViews.NothingLayout;
 import com.loopz.blackfolks.model.UserHome;
 import com.loopz.blackfolks.views.MainActivity;
+import com.loopz.blackfolks.views.SwitchesActivity;
+import com.loopz.blackfolks.views.UserRoomAccessEditActivity;
 import com.loopz.blackfolks.views.UserRoomAceessActivity;
 
 import java.util.ArrayList;
+
+import static com.loopz.blackfolks.constants.Roles.OWNER;
 
 public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderClickListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -148,7 +152,14 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
 
     @Override
     public void onUserViewHolderClick(UserHome user) {
-
+        if(!user.getPriority().equals(OWNER)) {
+            Intent intent = new Intent(getActivity(), UserRoomAccessEditActivity.class);
+            intent.putExtra("userHome", user);
+            intent.putExtra("home", ((MainActivity) getActivity()).getHome());
+            startActivity(intent);
+        }else {
+            Toast.makeText(getActivity(), "Cant edit owner settings", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

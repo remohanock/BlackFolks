@@ -1,10 +1,5 @@
 package com.loopz.blackfolks.views;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,13 +32,14 @@ import com.loopz.blackfolks.model.SceneMode;
 
 import java.util.ArrayList;
 
-public class SceneModeActivity extends AppCompatActivity implements AdapterRoomSwitchSelection.OnViewHolderClickListener {
+public class SceneModeEditActivity extends AppCompatActivity implements AdapterRoomSwitchSelection.OnViewHolderClickListener {
     EditText etName;
 
     Button btn_change_name;
 
     Spinner spPriority;
     Home home;
+    SceneMode sceneMode;
     RecyclerView roomsList;
 
     FirebaseDatabase firebaseDatabase;
@@ -52,8 +53,9 @@ public class SceneModeActivity extends AppCompatActivity implements AdapterRoomS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_mode);
-        setTitle("Scene Mode");
         home = (Home) getIntent().getSerializableExtra("home");
+        setTitle("Edit Scene Mode");
+        sceneMode = (SceneMode) getIntent().getSerializableExtra("sceneMode");
         progressDialog = new ProgressDialog(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         etName = findViewById(R.id.etUserId);
@@ -66,15 +68,21 @@ public class SceneModeActivity extends AppCompatActivity implements AdapterRoomS
         btn_change_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addSceneMode(new SceneMode(etName.getText().toString(), home.getId(), FirebaseAuth.getInstance().getUid(), roomList));
+                addSceneMode(new SceneMode(sceneMode.getId(),etName.getText().toString(), home.getId(), FirebaseAuth.getInstance().getUid(), roomList));
 
             }
         });
+        initializeValue();
         getRooms();
     }
 
+    private void initializeValue() {
+        etName.setText(sceneMode.getName());
+        roomList.addAll(sceneMode.getRoomSwitch());
+    }
+
     private void getRooms() {
-        adapterRoom = new AdapterRoomSwitchSelection(roomArrayList, SceneModeActivity.this);
+        adapterRoom = new AdapterRoomSwitchSelection(roomArrayList, SceneModeEditActivity.this);
         adapterRoom.setHome(home);
         roomsList.setAdapter(adapterRoom);
         roomsReference = firebaseDatabase.getReference().child(home.getId());
@@ -95,11 +103,12 @@ public class SceneModeActivity extends AppCompatActivity implements AdapterRoomS
         });
     }
 
+
     private void addSceneMode(SceneMode sceneMode) {
         progressDialog.show();
-        FirebaseConstants.getSceneModeReference().add(sceneMode).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        FirebaseConstants.getSceneModeReference().document(sceneMode.getId()).set(sceneMode).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
+            public void onComplete(@NonNull Task<Void> task) {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Scene mode created successfully", Toast.LENGTH_SHORT).show();
             }

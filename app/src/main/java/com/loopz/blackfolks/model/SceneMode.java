@@ -1,8 +1,9 @@
 package com.loopz.blackfolks.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SceneMode {
+public class SceneMode implements Serializable {
     String id;
     String name;
     String homeId;
@@ -14,6 +15,14 @@ public class SceneMode {
     }
 
     public SceneMode(String name, String homeId, String userId, ArrayList<String> roomSwitch) {
+        this.name = name;
+        this.homeId = homeId;
+        this.userId = userId;
+        this.roomSwitch = roomSwitch;
+    }
+
+    public SceneMode(String id,String name, String homeId, String userId, ArrayList<String> roomSwitch) {
+        this.id = id;
         this.name = name;
         this.homeId = homeId;
         this.userId = userId;

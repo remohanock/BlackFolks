@@ -91,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         configure();
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     private void logout() {
         firebaseAuth.signOut();

@@ -93,14 +93,15 @@ public class AdapterRoom extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             buttonStateReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Log.e("dfs", dataSnapshot.toString());
+                    room.setButtonState(dataSnapshot.getValue().toString());
                     for (int i = 0; i < 4; i++) {
                         Resources res = context.getResources();
                         int id = res.getIdentifier("switch" + (i + 1), "id", context.getPackageName());
                         ImageView aSwitch = holder.itemView.findViewById(id);
-                        if (room.getButtonState().charAt(i) == '0') {
+                        if ((room.getButtonState().charAt(i)+"").equals("0")) {
                             aSwitch.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_switch_off));
                         } else {
+                            Log.e(room.getId()+" state "+i,room.getButtonState().charAt(i) +"");
                             aSwitch.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_switch_on));
                         }
                     }
