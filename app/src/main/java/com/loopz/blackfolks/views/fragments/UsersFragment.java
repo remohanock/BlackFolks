@@ -31,12 +31,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.loopz.blackfolks.R;
 import com.loopz.blackfolks.adapter.AdapterUser;
 import com.loopz.blackfolks.constants.FirebaseConstants;
 import com.loopz.blackfolks.customViews.NothingLayout;
+import com.loopz.blackfolks.model.User;
 import com.loopz.blackfolks.model.UserHome;
 import com.loopz.blackfolks.views.MainActivity;
 import com.loopz.blackfolks.views.SwitchesActivity;
@@ -174,13 +176,24 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 swipeRefreshLayout.setRefreshing(false);
                 if (task.isSuccessful()) {
-                    userArrayList.addAll(userArrayList);
+                    userArrayList.removeAll(userArrayList);
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                        UserHome userHome = snapshot.toObject(UserHome.class);
-                        Log.e("homes", snapshot.toString());
-                        userArrayList.add(userHome);
+                        final UserHome userHome = snapshot.toObject(UserHome.class);
+//                        Log.e("homes", snapshot.toString());
+//                        userArrayList.add(userHome);
+                        FirebaseConstants.getUserReference().document(userHome.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                try {
+                                    userHome.setUser(task.getResult().toObject(User.class));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                userArrayList.add(userHome);
+                                adapterUser.notifyDataSetChanged();
+                            }
+                        });
                     }
-                    adapterUser.notifyDataSetChanged();
 
                 }
             }

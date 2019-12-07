@@ -22,11 +22,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.loopz.blackfolks.R;
 import com.loopz.blackfolks.adapter.AdapterRoomSelection;
 import com.loopz.blackfolks.constants.FirebaseConstants;
 import com.loopz.blackfolks.model.Home;
 import com.loopz.blackfolks.model.Room;
+import com.loopz.blackfolks.model.User;
 import com.loopz.blackfolks.model.UserHome;
 
 import java.util.ArrayList;
@@ -66,11 +68,33 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
         btn_change_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addUser(new UserHome(home.getId(), etUserId.getText().toString(), spPriority.getSelectedItem().toString(), roomList));
+                getUserFromPhone(etUserId.getText().toString());
 
             }
         });
         getRooms();
+    }
+
+    private void getUserFromPhone(String phoneNumber) {
+        progressDialog.show();
+        FirebaseConstants.getUserReference().whereEqualTo("userId",phoneNumber).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().getDocuments().size()>0){
+                        User user=task.getResult().getDocuments().get(0).toObject(User.class);
+                        user.setId(task.getResult().getDocuments().get(0).getId());
+                        addUser(new UserHome(home.getId(), user.getId(), spPriority.getSelectedItem().toString(), roomList));
+                    }else {
+                        Toast.makeText(UserRoomAceessActivity.this, "No user found", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                }else {
+                    progressDialog.dismiss();
+                }
+            }
+        });
+       //
     }
 
     private void getRooms() {
@@ -97,7 +121,6 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
     }
 
     private void addUser(UserHome userHome) {
-        progressDialog.show();
         FirebaseConstants.getUserHomeReference().add(userHome).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {

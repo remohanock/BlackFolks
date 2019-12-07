@@ -5,6 +5,7 @@ package com.loopz.blackfolks.model;
  */
 public class  User {
 
+    String id;
     private String userId;
     private String displayName;
 
@@ -13,6 +14,22 @@ public class  User {
 
     public User(String userId, String displayName) {
         this.userId = userId;
+        this.displayName = displayName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 

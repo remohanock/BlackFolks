@@ -70,9 +70,12 @@ public class AdapterUser extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         UserHome user = userArrayList.get(position);
         String title = user.getUserId();
         holder.tvTitle.setText(title);
+        if(user.getUser()!=null){
+            holder.tvTitle.setText(user.getUser().getUserId());
+        }
         holder.tvRole.setText(user.getPriority());
         holder.tvLetter.setText(title.substring(0,1));
-        getUserName(user,holder);
+        //getUserName(user,holder);
         holder.user=user;
     }
 

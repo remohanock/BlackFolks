@@ -7,6 +7,7 @@ public class UserHome implements Serializable {
     String id;
     String homeId;
     String userId;
+    User user;
     String priority;
     ArrayList<String> roomIds;
 
@@ -66,5 +67,13 @@ public class UserHome implements Serializable {
 
     public void setRoomIds(ArrayList<String> roomIds) {
         this.roomIds = roomIds;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
