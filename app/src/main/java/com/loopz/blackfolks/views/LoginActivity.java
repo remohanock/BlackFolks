@@ -142,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (task.isSuccessful()) {
                     getUserDetails();
-                    getToRoom();
                 } else {
                     Toast.makeText(LoginActivity.this, "Somethimg went wrong", Toast.LENGTH_SHORT).show();
                 }
