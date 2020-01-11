@@ -179,6 +179,7 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
                     userArrayList.removeAll(userArrayList);
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
                         final UserHome userHome = snapshot.toObject(UserHome.class);
+                        userHome.setId(snapshot.getId());
 //                        Log.e("homes", snapshot.toString());
 //                        userArrayList.add(userHome);
                         FirebaseConstants.getUserReference().document(userHome.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

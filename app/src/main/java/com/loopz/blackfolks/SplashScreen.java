@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.loopz.blackfolks.figerprintLock.LockScreenActivity;
 import com.loopz.blackfolks.views.HomesActivity;
 import com.loopz.blackfolks.views.LoginActivity;
 import com.loopz.blackfolks.views.MainActivity;
@@ -26,7 +27,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LockScreenActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

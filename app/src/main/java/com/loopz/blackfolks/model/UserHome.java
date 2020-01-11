@@ -76,4 +76,16 @@ public class UserHome implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "UserHome{" +
+                "id='" + id + '\'' +
+                ", homeId='" + homeId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", user=" + user +
+                ", priority='" + priority + '\'' +
+                ", roomIds=" + roomIds +
+                '}';
+    }
 }

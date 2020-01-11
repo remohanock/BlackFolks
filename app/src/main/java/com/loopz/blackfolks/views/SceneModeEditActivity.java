@@ -3,6 +3,7 @@ package com.loopz.blackfolks.views;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +55,7 @@ public class SceneModeEditActivity extends AppCompatActivity implements AdapterR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_mode);
         home = (Home) getIntent().getSerializableExtra("home");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Edit Scene Mode");
         sceneMode = (SceneMode) getIntent().getSerializableExtra("sceneMode");
         progressDialog = new ProgressDialog(this);
@@ -127,4 +129,11 @@ public class SceneModeEditActivity extends AppCompatActivity implements AdapterR
         Log.e("after list", roomList.toString());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

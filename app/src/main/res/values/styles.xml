@@ -13,6 +13,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="pf_lock_screen">@style/MyLockScreenStyle</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -21,5 +22,8 @@
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="MyLockScreenStyle">
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 </resources>

@@ -357,7 +357,7 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
         btn_change_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveHome(new Home(etHomeId.getText().toString().trim(), et_new_name.getText().toString(), Roles.ADMIN, null));
+                saveHome(new Home(etHomeId.getText().toString().trim(), et_new_name.getText().toString(), OWNER, null));
                 dialog.dismiss();
             }
         });

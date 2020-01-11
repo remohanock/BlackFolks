@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +55,7 @@ public class SceneModeActivity extends AppCompatActivity implements AdapterRoomS
         setContentView(R.layout.activity_scene_mode);
         setTitle("Scene Mode");
         home = (Home) getIntent().getSerializableExtra("home");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog = new ProgressDialog(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         etName = findViewById(R.id.etUserId);
@@ -118,4 +120,11 @@ public class SceneModeActivity extends AppCompatActivity implements AdapterRoomS
         Log.e("after list", roomList.toString());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

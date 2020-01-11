@@ -3,6 +3,7 @@ package com.loopz.blackfolks.views;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_room_acees);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog=new ProgressDialog(this);
         setTitle("Edit user access");
         home = (Home) getIntent().getSerializableExtra("home");
@@ -71,10 +73,11 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
         roomsList.setLayoutManager(layoutManager);
         roomsList.setHasFixedSize(false);
         btn_change_name.setText("Save");
+        etUserId.setFocusable(false);
         btn_change_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addUser(new UserHome(userHome.getId(),home.getId(), etUserId.getText().toString(), spPriority.getSelectedItem().toString(), roomList));
+                addUser(new UserHome(userHome.getId(),home.getId(), userHome.getUserId(), spPriority.getSelectedItem().toString(), roomList));
 
             }
         });
@@ -83,7 +86,12 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
     }
 
     private void initializeValues() {
-        etUserId.setText(userHome.getUserId());
+        Log.e("userHome",userHome.toString());
+        try {
+            etUserId.setText(userHome.getUser().getUserId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(userHome.getPriority().equals(ADMIN))
         spPriority.setSelection(0);
         else if(userHome.getPriority().equals(USER))
@@ -119,11 +127,13 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
 
     private void addUser(UserHome userHome) {
         progressDialog.show();
+        Log.e("userhome",userHome.toString());
         FirebaseConstants.getUserHomeReference().document(userHome.getId()).set(userHome).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "User added successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "User access updated successfully", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -140,4 +150,11 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
         Log.e("after list",roomList.toString());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

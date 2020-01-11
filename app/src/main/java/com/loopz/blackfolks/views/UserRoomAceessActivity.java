@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +56,7 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_room_acees);
         progressDialog=new ProgressDialog(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Add user access");
         home = (Home) getIntent().getSerializableExtra("home");
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -142,4 +144,11 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
         Log.e("after list",roomList.toString());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -1,9 +1,11 @@
 package com.loopz.blackfolks.model;
 
+import java.io.Serializable;
+
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
-public class  User {
+public class User implements Serializable {
 
     String id;
     private String userId;
@@ -39,5 +41,14 @@ public class  User {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", displayName='" + displayName + '\'' +
+                '}';
     }
 }
