@@ -121,7 +121,7 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
                 getUsers();
             }
         });
-        getUsers();
+        //getUsers();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,5 +234,6 @@ public class UsersFragment extends Fragment implements AdapterUser.OnViewHolderC
     public void onResume() {
         super.onResume();
         getActivity().setTitle("User List");
+        getUsers();
     }
 }

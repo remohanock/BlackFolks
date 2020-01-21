@@ -120,6 +120,20 @@
                 android:text="Add User"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
+            <Button
+                android:id="@+id/btDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_marginBottom="16dp"
+                android:drawableLeft="@drawable/ic_delete"
+                android:background="@color/transparent"
+                android:text="Delete User"
+                android:textAllCaps="false"
+                android:textColor="@color/red" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

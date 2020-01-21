@@ -1,6 +1,7 @@
 package com.loopz.blackfolks.views;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +44,7 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
     EditText etUserId;
 
     Button btn_change_name;
+    Button btDelete;
 
     Spinner spPriority;
     Home home;
@@ -60,7 +63,7 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_room_acees);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        progressDialog=new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
         setTitle("Edit user access");
         home = (Home) getIntent().getSerializableExtra("home");
         userHome = (UserHome) getIntent().getSerializableExtra("userHome");
@@ -68,6 +71,7 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
         etUserId = findViewById(R.id.etUserId);
         btn_change_name = findViewById(R.id.btn_change_name);
         spPriority = findViewById(R.id.spPriority);
+        btDelete = findViewById(R.id.btDelete);
         roomsList = findViewById(R.id.roomsList);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         roomsList.setLayoutManager(layoutManager);
@@ -77,26 +81,67 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
         btn_change_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addUser(new UserHome(userHome.getId(),home.getId(), userHome.getUserId(), spPriority.getSelectedItem().toString(), roomList));
+                addUser(new UserHome(userHome.getId(), home.getId(), userHome.getUserId(), spPriority.getSelectedItem().toString(), roomList));
 
             }
         });
         initializeValues();
         getRooms();
+        btDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteAlert();
+            }
+        });
+    }
+
+    private void showDeleteAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setMessage("Are you sure you want delete this?");
+
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                deleteUser();
+                dialog.dismiss();
+            }
+        });
+
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
+
+    private void deleteUser() {
+        progressDialog.show();
+        FirebaseConstants.getUserHomeReference().document(userHome.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                Toast.makeText(UserRoomAccessEditActivity.this, "User deleted successfully", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 
     private void initializeValues() {
-        Log.e("userHome",userHome.toString());
+        Log.e("userHome", userHome.toString());
         try {
             etUserId.setText(userHome.getUser().getUserId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(userHome.getPriority().equals(ADMIN))
-        spPriority.setSelection(0);
-        else if(userHome.getPriority().equals(USER))
+        if (userHome.getPriority().equals(ADMIN))
+            spPriority.setSelection(0);
+        else if (userHome.getPriority().equals(USER))
             spPriority.setSelection(1);
-        else if(userHome.getPriority().equals(GUEST))
+        else if (userHome.getPriority().equals(GUEST))
             spPriority.setSelection(2);
 
         roomList.addAll(userHome.getRoomIds());
@@ -104,7 +149,7 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
 
     private void getRooms() {
 
-        adapterRoom = new AdapterRoomSelection(roomArrayList, UserRoomAccessEditActivity.this,userHome);
+        adapterRoom = new AdapterRoomSelection(roomArrayList, UserRoomAccessEditActivity.this, userHome);
         roomsList.setAdapter(adapterRoom);
         adapterRoom.setParentId("");
         roomsReference = firebaseDatabase.getReference().child(home.getId());
@@ -127,7 +172,7 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
 
     private void addUser(UserHome userHome) {
         progressDialog.show();
-        Log.e("userhome",userHome.toString());
+        Log.e("userhome", userHome.toString());
         FirebaseConstants.getUserHomeReference().document(userHome.getId()).set(userHome).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -139,20 +184,20 @@ public class UserRoomAccessEditActivity extends AppCompatActivity implements Ada
     }
 
     @Override
-    public void onRoomSelectionChange(String parentId,Room room, boolean isSelected) {
-        Log.e("isSelected",isSelected+"");
-        Log.e("before list",roomList.toString());
+    public void onRoomSelectionChange(String parentId, Room room, boolean isSelected) {
+        Log.e("isSelected", isSelected + "");
+        Log.e("before list", roomList.toString());
         if (isSelected) {
             roomList.add(room.getId());
         } else {
             roomList.remove(room.getId());
         }
-        Log.e("after list",roomList.toString());
+        Log.e("after list", roomList.toString());
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);

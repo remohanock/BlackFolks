@@ -39,6 +39,7 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
     EditText etUserId;
 
     Button btn_change_name;
+    Button btDelete;
 
     Spinner spPriority;
     Home home;
@@ -63,6 +64,7 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
         etUserId = findViewById(R.id.etUserId);
         btn_change_name = findViewById(R.id.btn_change_name);
         spPriority = findViewById(R.id.spPriority);
+        btDelete = findViewById(R.id.btDelete);
         roomsList = findViewById(R.id.roomsList);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         roomsList.setLayoutManager(layoutManager);
@@ -74,6 +76,7 @@ public class UserRoomAceessActivity extends AppCompatActivity implements Adapter
 
             }
         });
+        btDelete.setVisibility(View.GONE);
         getRooms();
     }
 
