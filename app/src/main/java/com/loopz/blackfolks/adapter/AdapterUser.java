@@ -3,15 +3,22 @@ package com.loopz.blackfolks.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.loopz.blackfolks.R;
+import com.loopz.blackfolks.constants.FirebaseConstants;
+import com.loopz.blackfolks.model.User;
 import com.loopz.blackfolks.model.UserHome;
 
 import java.util.ArrayList;
@@ -63,10 +70,30 @@ public class AdapterUser extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         UserHome user = userArrayList.get(position);
         String title = user.getUserId();
         holder.tvTitle.setText(title);
+        if(user.getUser()!=null){
+            holder.tvTitle.setText(user.getUser().getUserId());
+        }
         holder.tvRole.setText(user.getPriority());
         holder.tvLetter.setText(title.substring(0,1));
-
+        //getUserName(user,holder);
         holder.user=user;
+    }
+
+    private void getUserName(UserHome user, final ViewHolderSender holder) {
+        FirebaseConstants.getUserReference().document(user.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    try {
+                        Log.e("user",task.getResult().toString());
+                        User user1=task.getResult().toObject(User.class);
+                        holder.tvTitle.setText(user1.getUserId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     @Override

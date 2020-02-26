@@ -1,8 +1,10 @@
 package com.loopz.blackfolks.views.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +58,7 @@ public class HomesFragment extends Fragment implements AdapterHome.OnViewHolderC
     SwipeRefreshLayout swipeRefreshLayout;
     NothingLayout nothingLayout;
     FloatingActionButton fab;
+    ProgressDialog progressDialog;
 
     private OnFragmentInteractionListener mListener;
 
@@ -91,6 +94,7 @@ public class HomesFragment extends Fragment implements AdapterHome.OnViewHolderC
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressDialog=new ProgressDialog(getActivity());
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         homeListRecyclerview = view.findViewById(R.id.userListRecyclerview);
@@ -153,17 +157,23 @@ public class HomesFragment extends Fragment implements AdapterHome.OnViewHolderC
     }
 
     private void setHomePrimary(final UserHome home2) {
+        progressDialog.show();
         FirebaseConstants.getHomeReference().document(home2.getHomeId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 final Home home = task.getResult().toObject(Home.class);
+                home.setPrivilege(home2.getPriority());
+                home.setRoomIds(home2.getRoomIds());
                 Log.e("home", home.toString());
                 FirebaseConstants.getPrimaryHomeReference().document(firebaseAuth.getUid()).set(home).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         //getHomes();
-                        if (task.isSuccessful()) {
-                            ((MainActivity) getActivity()).setHome(home);
+                        if (task.isSuccessful()) {/*
+                            ((MainActivity) getActivity()).setHome(home);*/
+                            progressDialog.dismiss();
+                            startActivity(new Intent(getActivity(),MainActivity.class));
+                            getActivity().finish();
                         }
                     }
                 });
@@ -183,6 +193,7 @@ public class HomesFragment extends Fragment implements AdapterHome.OnViewHolderC
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 swipeRefreshLayout.setRefreshing(false);
                 if (task.isSuccessful()) {
+                    homesArrayList.removeAll(homesArrayList);
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
                         UserHome userHome = snapshot.toObject(UserHome.class);
                         Log.e("homes", snapshot.toString());

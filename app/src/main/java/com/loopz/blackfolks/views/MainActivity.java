@@ -91,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         configure();
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     private void logout() {
         firebaseAuth.signOut();
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         btn_change_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveHome(new Home(etHomeId.getText().toString().trim(), et_new_name.getText().toString(), Roles.ADMIN, null));
+                saveHome(new Home(etHomeId.getText().toString().trim(), et_new_name.getText().toString(), Roles.OWNER, null));
                 dialog.dismiss();
             }
         });

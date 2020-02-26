@@ -21,5 +21,11 @@
         android:name="com.loopz.blackfolks.views.fragments.HomesFragment"
         android:label="Homes list"
         tools:layout="@layout/fragment_users" />
+  <!--  <activity
+        android:id="@+id/nav_settings"
+        android:name="com.loopz.blackfolks.views.fragments.SettingsActivity"/>-->
+    <action
+        android:id="@+id/logout"
+        android:name="logout()"/>
 
 </navigation>

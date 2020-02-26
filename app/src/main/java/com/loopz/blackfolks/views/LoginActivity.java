@@ -32,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.loopz.blackfolks.R;
 import com.loopz.blackfolks.Utilities;
+import com.loopz.blackfolks.figerprintLock.LockScreenActivity;
 import com.loopz.blackfolks.model.User;
 
 import java.util.Random;
@@ -142,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (task.isSuccessful()) {
                     getUserDetails();
-                    getToRoom();
                 } else {
                     Toast.makeText(LoginActivity.this, "Somethimg went wrong", Toast.LENGTH_SHORT).show();
                 }
@@ -165,7 +165,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getToRoom() {
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(getApplicationContext(), LockScreenActivity.class);
+        startActivity(intent);
         finish();
     }
 

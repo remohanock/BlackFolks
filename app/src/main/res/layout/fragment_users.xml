@@ -36,6 +36,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/userListRecyclerview"
                 android:layout_width="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="60dp"
                 android:layout_height="match_parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>

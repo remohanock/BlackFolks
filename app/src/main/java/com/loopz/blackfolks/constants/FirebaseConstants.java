@@ -8,6 +8,7 @@ public class FirebaseConstants {
 
     public static String USERS = "users";
     public static String HOMES = "homes";
+    public static String SCENE_MODE = "sceneMode";
     public static String PRIMARY_HOME = "primaryHome";
     public static String USER_HOMES = "userHomes";
     public static String ROOMS = "rooms";
@@ -18,6 +19,12 @@ public class FirebaseConstants {
     }
     public static CollectionReference getPrimaryHomeReference(){
         return FirebaseFirestore.getInstance().collection(PRIMARY_HOME);
+    }
+    public static CollectionReference getUserReference(){
+        return FirebaseFirestore.getInstance().collection(USERS);
+    }
+    public static CollectionReference getSceneModeReference(){
+        return FirebaseFirestore.getInstance().collection(SCENE_MODE);
     }
 
     public static CollectionReference getUserHomeReference(){
