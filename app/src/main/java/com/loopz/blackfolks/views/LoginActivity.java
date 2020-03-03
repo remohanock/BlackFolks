@@ -2,6 +2,8 @@ package com.loopz.blackfolks.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        userReference= FirebaseFirestore.getInstance().collection(USERS);
+        userReference = FirebaseFirestore.getInstance().collection(USERS);
         etUsername = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         btLogin = findViewById(R.id.login);
@@ -154,10 +156,10 @@ public class LoginActivity extends AppCompatActivity {
         userReference.document(firebaseAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()&&task.getResult().exists()){
+                if (task.isSuccessful() && task.getResult().exists()) {
                     getToRoom();
-                }else {
-                    userReference.document(firebaseAuth.getUid()).set(new User(etUsername.getText().toString(), new Random().nextInt()+""));
+                } else {
+                    userReference.document(firebaseAuth.getUid()).set(new User(etUsername.getText().toString(), new Random().nextInt() + ""));
                     getToRoom();
                 }
             }
@@ -204,6 +206,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
         // btResend.setVisibility(View.GONE);

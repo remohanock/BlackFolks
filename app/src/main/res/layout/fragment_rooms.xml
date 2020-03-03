@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.RoomsActivity">
+
 
     <com.loopz.blackfolks.customViews.NothingLayout
         android:id="@+id/nothingLayout"
@@ -13,7 +14,8 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:image="@drawable/ic_rooms"
-        app:text="No rooms available"/>
+        app:text="No rooms available" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -21,59 +23,128 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#CCC"
             android:clipToPadding="false"
-            android:paddingBottom="60dp"
-            android:layout_height="match_parent">
-            <LinearLayout
+            android:paddingBottom="60dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
                 android:layout_height="match_parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+
+                <ImageView
+                    android:id="@+id/iv_room_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/sceneModeRecycler"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bedroom_bg_wide"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_room_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/tv_rooms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/raleway__light"
+                            android:padding="8dp"
+                            android:text="ROOMS"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+                            android:paddingLeft="32dp"
+                            android:paddingRight="32dp"
+                            android:paddingBottom="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_scenes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/raleway__light"
+                            android:padding="8dp"
+                            android:text="SCENES"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/sceneModeRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:clipToPadding="false"
+                            android:paddingLeft="32dp"
+                            android:paddingRight="32dp"
+                            android:paddingBottom="16dp"
+                            app:spanCount="@integer/config_navAnimTime" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-<!--
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add" />-->
+    <!--
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_add" />-->
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:fab_addButtonColorNormal="@color/colorPrimary"
-        fab:fab_labelStyle="@style/menu_labels_style"
         android:layout_margin="@dimen/fab_margin"
+        app:fab_addButtonColorNormal="@color/colorPrimary"
         fab:fab_addButtonPlusIconColor="#fff"
-        fab:fab_addButtonStrokeVisible="false">
+        fab:fab_addButtonStrokeVisible="false"
+        fab:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabScene"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorPrimary"
-            fab:fab_title="Add Scene Mode"
             app:fab_icon="@drawable/ic_add"
-            android:layout_height="wrap_content"/>
+            fab:fab_title="Add Scene Mode" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabRoom"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorPrimary"
-            app:fab_title="Add Rooms"
             app:fab_icon="@drawable/ic_add"
-            android:layout_height="wrap_content"/>
+            app:fab_title="Add Rooms" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

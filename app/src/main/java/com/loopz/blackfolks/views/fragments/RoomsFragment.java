@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
@@ -83,6 +87,7 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
     FloatingActionsMenu fab;
     FloatingActionButton fabScene,fabRoom;
     NothingLayout nothingLayout;
+    TextView tv_scenes,tv_rooms;
 
     private OnFragmentInteractionListener mListener;
 
@@ -126,12 +131,16 @@ public class RoomsFragment extends Fragment implements AdapterRoom.OnViewHolderC
         nothingLayout = view.findViewById(R.id.nothingLayout);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
+        tv_rooms = view.findViewById(R.id.tv_rooms);
+        tv_scenes = view.findViewById(R.id.tv_scenes);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(layoutManager1);
         recyclerView.setHasFixedSize(false);
         sceneModeRecycler = view.findViewById(R.id.sceneModeRecycler);
         GridLayoutManager layoutManager2 = new GridLayoutManager(getActivity(), 2);
-        sceneModeRecycler.setLayoutManager(layoutManager2);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        sceneModeRecycler.setLayoutManager(layoutManager3);
         sceneModeRecycler.setHasFixedSize(false);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
 //                layoutManager2.getOrientation());

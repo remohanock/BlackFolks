@@ -1,134 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="15dp">
-
-    <TextView
-        android:id="@+id/tvVerification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center_horizontal"
-        android:text="Mobile verification"
-        android:textColor="@color/textColorDark"
-        android:textSize="20sp"
-        android:typeface="serif" />
-
-    <TextView
-        android:id="@+id/tvMessageText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
-        android:text="Enter the OTP sent to your mobile number"
-        android:textColor="#666"
-        android:typeface="serif" />
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    android:padding="25dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:padding="25dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etOTP"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_edittext"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/edittext_bg"
-            android:cursorVisible="true"
-            android:inputType="number"
-            android:minWidth="200dp"
-            android:padding="10dp"
-            android:textColor="@color/textColor"
-            android:textSize="16sp" />
-
         <TextView
-            android:id="@+id/btResend"
+            android:id="@+id/tvVerification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30sp"
-            android:visibility="gone"
-            android:layout_gravity="right"
-            android:text="Resend OTP" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inOtp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:gravity="center"
-                android:hint="Enter OTP"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:minWidth="200dp"
-                android:padding="10dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_primary_outline"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"
+            android:layout_margin="20dp"
+            android:gravity="center_horizontal"
+            android:text="Mobile verification"
+            android:textColor="@color/textColorDark"
+            android:textSize="20sp"
             android:typeface="serif" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btVerify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_primary"
-            android:text="Verify"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:typeface="serif" />
-    </LinearLayout>
-    <!--
 
         <TextView
-            android:id="@+id/success_text2"
+            android:id="@+id/tvMessageText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
 
+            android:layout_marginBottom="10dp"
             android:gravity="center_horizontal"
-            android:text="If you do not receive an email/SMS or your OTP has expired, you can generate a new one after 2 minutes "
+            android:text="Enter the OTP sent to your mobile number"
             android:textColor="#666"
             android:typeface="serif" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etOTP"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_edittext"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/edittext_bg"
+                android:cursorVisible="true"
+                android:inputType="number"
+                android:minWidth="200dp"
+                android:padding="10dp"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/btResend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="30sp"
+                android:text="Resend OTP"
+                android:visibility="gone" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inOtp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_bg"
+                    android:gravity="center"
+                    android:hint="Enter OTP"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:minWidth="200dp"
+                    android:padding="10dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,52 +96,99 @@
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/timertitle"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btCancel"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:gravity="right|center_vertical"
-                android:paddingLeft="10dp"
-                android:text="You may request a new OTP in "
-                android:textColor="#777"
-                android:textSize="13sp"
-                android:typeface="serif"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btResend"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:background="#00123456"
-                android:text="Resend OTP"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_primary_outline"
+                android:text="Cancel"
                 android:textAllCaps="false"
-                android:textColor="#444"
-                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
                 android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/time_field"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btVerify"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginLeft="5dp"
-                android:gravity="left|center_vertical"
-                android:singleLine="true"
-                android:text="(2:00)"
-                android:textColor="#777"
-                android:textSize="13sp"
-                android:typeface="serif"
-                android:visibility="visible" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_primary"
+                android:text="Verify"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:typeface="serif" />
         </LinearLayout>
+        <!--
 
-        <TextView
-            android:id="@+id/success_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textColor="@color/primary_text"
-            android:typeface="serif"
-            android:visibility="gone" />
-    -->
+            <TextView
+                android:id="@+id/success_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
 
+                android:gravity="center_horizontal"
+                android:text="If you do not receive an email/SMS or your OTP has expired, you can generate a new one after 2 minutes "
+                android:textColor="#666"
+                android:typeface="serif" />
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/timertitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="You may request a new OTP in "
+                    android:textColor="#777"
+                    android:textSize="13sp"
+                    android:typeface="serif"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btResend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:background="#00123456"
+                    android:text="Resend OTP"
+                    android:textAllCaps="false"
+                    android:textColor="#444"
+                    android:textSize="16sp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/time_field"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="(2:00)"
+                    android:textColor="#777"
+                    android:textSize="13sp"
+                    android:typeface="serif"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/success_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/primary_text"
+                android:typeface="serif"
+                android:visibility="gone" />
+        -->
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

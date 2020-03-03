@@ -31,8 +31,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".views.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".views.RoomsActivity" />
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppThemeBlackAccent"/>
+        <activity android:name=".views.RoomsActivity"/>
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">

@@ -55,7 +55,9 @@ public class SceneModeActivity extends AppCompatActivity implements AdapterRoomS
         setContentView(R.layout.activity_scene_mode);
         setTitle("Scene Mode");
         home = (Home) getIntent().getSerializableExtra("home");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() !=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         progressDialog = new ProgressDialog(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         etName = findViewById(R.id.etUserId);

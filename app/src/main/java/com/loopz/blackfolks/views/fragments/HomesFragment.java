@@ -195,8 +195,8 @@ public class HomesFragment extends Fragment implements AdapterHome.OnViewHolderC
                 if (task.isSuccessful()) {
                     homesArrayList.removeAll(homesArrayList);
                     for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                        UserHome userHome = snapshot.toObject(UserHome.class);
                         Log.e("homes", snapshot.toString());
+                        UserHome userHome = snapshot.toObject(UserHome.class);
                         homesArrayList.add(userHome);
                     }
                     adapterUser.notifyDataSetChanged();

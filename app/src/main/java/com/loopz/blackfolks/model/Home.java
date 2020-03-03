@@ -1,13 +1,14 @@
 package com.loopz.blackfolks.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Home implements Serializable {
     String id;
     String name;
     String privilege;
-    List<String> roomIds;
+    ArrayList<String> roomIds;
 
     public Home() {
     }
@@ -17,7 +18,7 @@ public class Home implements Serializable {
         this.name = name;
     }
 
-    public Home(String id, String name, String privilege, List<String> roomIds) {
+    public Home(String id, String name, String privilege, ArrayList<String> roomIds) {
         this.id = id;
         this.name = name;
         this.privilege = privilege;
@@ -52,7 +53,7 @@ public class Home implements Serializable {
         return roomIds;
     }
 
-    public void setRoomIds(List<String> roomIds) {
+    public void setRoomIds(ArrayList<String> roomIds) {
         this.roomIds = roomIds;
     }
 
